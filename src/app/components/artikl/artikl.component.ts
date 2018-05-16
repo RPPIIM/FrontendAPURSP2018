@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ArtiklService } from '../services/artikl.service';
 import { Observable } from 'rxjs/Observable';
-import { Artikl } from '../models/artikl';
 import { HttpClient } from '@angular/common/http';
+import { ArtiklService } from '../../services/artikl.service';
+import { Artikl } from '../../models/artikl';
 
 @Component({
   selector: 'app-artikl',

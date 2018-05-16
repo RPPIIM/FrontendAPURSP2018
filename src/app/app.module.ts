@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { VoziloComponent } from './primer-components/vozilo/vozilo.component';
-import { AutomobilComponent } from './primer-components/automobil/automobil.component';
 import {
   MatButtonModule,
   MatIconModule,
@@ -19,16 +17,19 @@ import {
   MatOptionModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ArtiklComponent } from './artikl/artikl.component';
-import { DobavljacComponent } from './dobavljac/dobavljac.component';
-import { PorudzbinaComponent } from './porudzbina/porudzbina.component';
-import { StavkaPorudzbineComponent } from './stavka-porudzbine/stavka-porudzbine.component';
-import { AboutComponent } from './core/about/about.component';
-import { AuthorComponent } from './core/author/author.component';
-import { HomeComponent } from './core/home/home.component';
+
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ArtiklService } from './services/artikl.service';
+import { ArtiklComponent } from './components/artikl/artikl.component';
+import { DobavljacComponent } from './components/dobavljac/dobavljac.component';
+import { PorudzbinaComponent } from './components/porudzbina/porudzbina.component';
+import { StavkaPorudzbineComponent } from './components/stavka-porudzbine/stavka-porudzbine.component';
+import { HomeComponent } from './components/core/home/home.component';
+import { AuthorComponent } from './components/core/author/author.component';
+import { AboutComponent } from './components/core/about/about.component';
+import { VoziloComponent } from './components/primer-components/vozilo/vozilo.component';
+import { AutomobilComponent } from './components/primer-components/automobil/automobil.component';
 
 const Routes = [
   { path: 'artikl', component: ArtiklComponent },
