@@ -35,6 +35,8 @@ import { VoziloComponent } from './components/primer-components/vozilo/vozilo.co
 import { AutomobilComponent } from './components/primer-components/automobil/automobil.component';
 import { ArtiklDialogComponent } from './components/dialogs/artikl-dialog/artikl-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { DobavljacDialogComponent } from './components/dialogs/dobavljac-dialog/dobavljac-dialog.component';
+import { DobavljacService } from './services/dobavljac.service';
 
 const Routes = [
   { path: 'artikl', component: ArtiklComponent },
@@ -59,7 +61,8 @@ const Routes = [
     AboutComponent,
     AuthorComponent,
     HomeComponent,
-    ArtiklDialogComponent
+    ArtiklDialogComponent,
+    DobavljacDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,8 +76,8 @@ const Routes = [
     RouterModule.forRoot(Routes),
     HttpClientModule
   ],
-  entryComponents: [ArtiklDialogComponent],
-  providers: [ArtiklService],
+  entryComponents: [ArtiklDialogComponent, DobavljacDialogComponent],
+  providers: [ArtiklService, DobavljacService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
