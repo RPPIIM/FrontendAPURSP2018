@@ -14,7 +14,10 @@ import {
   MatTableModule,
   MatToolbarModule,
   MatSelectModule,
-  MatOptionModule
+  MatOptionModule,
+  MatSnackBarModule,
+  MatDialogModule,
+  MatInputModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -30,6 +33,8 @@ import { AuthorComponent } from './components/core/author/author.component';
 import { AboutComponent } from './components/core/about/about.component';
 import { VoziloComponent } from './components/primer-components/vozilo/vozilo.component';
 import { AutomobilComponent } from './components/primer-components/automobil/automobil.component';
+import { ArtiklDialogComponent } from './components/dialogs/artikl-dialog/artikl-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 const Routes = [
   { path: 'artikl', component: ArtiklComponent },
@@ -53,7 +58,8 @@ const Routes = [
     StavkaPorudzbineComponent,
     AboutComponent,
     AuthorComponent,
-    HomeComponent
+    HomeComponent,
+    ArtiklDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +68,12 @@ const Routes = [
     MatGridListModule, MatExpansionModule, MatSortModule,
     MatTableModule,
     MatToolbarModule, MatSelectModule, MatOptionModule,
+    MatSnackBarModule, MatDialogModule, MatInputModule,
+    FormsModule,
     RouterModule.forRoot(Routes),
     HttpClientModule
   ],
+  entryComponents: [ArtiklDialogComponent],
   providers: [ArtiklService],
   bootstrap: [AppComponent]
 })
