@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ArtiklService } from '../../../services/artikl.service';
 
+
 @Component({
   selector: 'app-artikl-dialog',
   templateUrl: './artikl-dialog.component.html',
