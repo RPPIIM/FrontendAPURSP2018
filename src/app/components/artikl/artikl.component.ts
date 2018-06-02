@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { ArtiklService } from '../../services/artikl.service';
 import { Artikl } from '../../models/artikl';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatTab, MatPaginator, MatSort } from '@angular/material';
 import { ArtiklDialogComponent } from '../dialogs/artikl-dialog/artikl-dialog.component';
 
 @Component({
@@ -15,17 +15,41 @@ export class ArtiklComponent implements OnInit {
 
   displayedColumns = ['id', 'naziv', 'proizvodjac', 'actions'];
   exampleDatabase: ArtiklService;
-  dataSource: Observable<Artikl[]>;
+  dataSource: MatTableDataSource<Artikl>;
 
-  constructor(public httpClient: HttpClient, public artiklService: ArtiklService, public dialog: MatDialog) { }
+  @ViewChild (MatPaginator) paginator: MatPaginator;
+  @ViewChild (MatSort) sort: MatSort;
+
+  constructor(public httpClient: HttpClient,
+              public artiklService: ArtiklService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadData();
   }
 
   public loadData() {
-    this.exampleDatabase = new ArtiklService(this.httpClient);
-    this.dataSource = this.artiklService.getAllArtikl();
+    this.artiklService.getAllArtikl().subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
+
+      // ignoriši mala/velika slova pri sortiranju ali za ID nemoj da prebacuješ u mala slova
+      // tslint:disable-next-line:no-shadowed-variable
+      this.dataSource.sortingDataAccessor = (data, property) => {
+        switch (property) {
+          case 'id' : return data[property];
+          default: return data[property].toLocaleLowerCase();
+        }
+      };
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  });
+}
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   public openDialog (flag: number, id: number, naziv: string, proizvodjac: string) {

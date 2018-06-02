@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Porudzbina } from '../../models/porudzbina';
 import { Observable } from 'rxjs/Observable';
 import { PorudzbinaService } from '../../services/porudzbina.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Dobavljac } from '../../models/dobavljac';
 import { PorudzbinaDialogComponent } from '../dialogs/porudzbina-dialog/porudzbina-dialog.component';
 
@@ -13,8 +13,11 @@ import { PorudzbinaDialogComponent } from '../dialogs/porudzbina-dialog/porudzbi
 })
 export class PorudzbinaComponent implements OnInit {
   displayedColumns = ['id', 'datum', 'isporuceno', 'iznos', 'placeno', 'dobavljac', 'actions'];
-  dataSource: Observable<Porudzbina[]>;
-  public selektovanaPorudzbina: Porudzbina;
+  dataSource: MatTableDataSource<Porudzbina>;
+  selektovanaPorudzbina: Porudzbina;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public porudzbinaService: PorudzbinaService, public dialog: MatDialog) { }
 
@@ -23,12 +26,37 @@ export class PorudzbinaComponent implements OnInit {
   }
 
   public loadData() {
-    this.dataSource = this.porudzbinaService.getAllPorudzbina();
+    this.porudzbinaService.getAllPorudzbina().subscribe(data => {
+      this.dataSource = new MatTableDataSource<Porudzbina>(data);
+
+      // pretraga po nazivu ugnježdenog objekta
+      // tslint:disable-next-line:no-shadowed-variable
+      this.dataSource.filterPredicate = (data, filter: string) => {
+        const accumulator = (currentTerm, key) => {
+          return key === 'dobavljac' ? currentTerm + data.dobavljac.naziv : currentTerm + data[key];
+        };
+        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+        const transformedFilter = filter.trim().toLowerCase();
+        return dataStr.indexOf(transformedFilter) !== -1;
+      };
+
+      // sortiranje po nazivu ugnježdenog objekta
+      // tslint:disable-next-line:no-shadowed-variable
+      this.dataSource.sortingDataAccessor = (data, property) => {
+        switch (property) {
+          case 'dobavljac': return data.dobavljac.naziv.toLocaleLowerCase();
+          default: return data[property];
+        }
+      };
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
-  public selectRow(row) {
-    this.selektovanaPorudzbina = row;
-    console.log(this.selektovanaPorudzbina);
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   public openDialog(flag: number, id: number, datum: Date, isporuceno: Date, placeno: boolean, iznos: number, dobavljac: Dobavljac) {
@@ -41,5 +69,9 @@ export class PorudzbinaComponent implements OnInit {
         this.loadData();
       }
     });
+  }
+
+  public selectRow(row) {
+    this.selektovanaPorudzbina = row;
   }
 }

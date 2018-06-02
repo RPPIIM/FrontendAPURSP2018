@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 export class PorudzbinaService {
     porudzbine: Porudzbina[];
     private readonly API_URL = 'http://localhost:8083/porudzbina/';
+    // private readonly API_URL = 'http://localhost:8080/backend/porudzbina/';
     dataChange: BehaviorSubject<Porudzbina[]> = new BehaviorSubject<Porudzbina[]>([]);
     // privremeno cuvanje podataka iz dijaloga
 

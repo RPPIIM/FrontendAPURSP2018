@@ -20,7 +20,8 @@ import {
   MatInputModule,
   MatCheckboxModule,
   MatNativeDateModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatPaginatorModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -82,6 +83,7 @@ const Routes = [
     MatToolbarModule, MatSelectModule, MatOptionModule,
     MatSnackBarModule, MatDialogModule, MatInputModule,
     MatCheckboxModule, MatNativeDateModule, MatDatepickerModule, // Vežbe 10 moduli
+    MatPaginatorModule,
     FormsModule,
     RouterModule.forRoot(Routes),
     HttpClientModule
